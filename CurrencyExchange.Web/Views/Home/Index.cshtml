@@ -1,0 +1,166 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+
+
+
+<div class="container">
+    <form id="conversion-form">
+        <div class="form-group">
+            <label for="from-currency">საწყისი ვალუტა</label>
+            <select class="form-control" id="from-currency">
+            </select>
+        </div>
+        <br />
+        <div class="form-group">
+            <label for="to-currency">სამიზნე ვალუტა</label>
+            <select class="form-control" id="to-currency">
+            </select>
+        </div>
+        <br />
+        <div class="form-group">
+            <label for="initial-amount">თანხის ოდენობა</label>
+            <input type="number" class="form-control" id="initial-amount" step=".01" required>
+        </div>
+        <br />
+        <div id="extra-person-info" style="display: none;">
+            <div class="form-group">
+                <label for="personal-number">პირადი ნომერი</label>
+                <input type="text" class="form-control" id="personal-number">
+            </div>
+            <br />
+            <div class="form-group">
+                <label for="first-name">სახელი</label>
+                <input type="text" class="form-control" id="first-name">
+            </div>
+            <br />
+            <div class="form-group">
+                <label for="last-name">გვარი</label>
+                <input type="text" class="form-control" id="last-name">
+            </div>
+        </div>
+        <br />
+        <div class="form-group">
+            <label for="recommendator-personal-number">რეკომენდატორის პირადი ნომერი</label>
+            <input type="text" class="form-control" id="recommendator-personal-number">
+        </div>
+        <br />
+    </form>
+    <button id="submitConversion" class="btn btn-primary">კონვერტაცია</button>
+</div>
+<br>
+
+<h6>კურსები ლართან მიმართებაში</h6>
+<hr />
+<table id="currenciesTable" class="table">
+    <thead>
+        <tr>
+            <th>სახელი</th>
+            <th>Code</th>
+            <th>ყიდვის კურსი</th>
+            <th>გაყიდვის კურსი</th>
+            <th>განახლების თარიღი</th>
+            <th><button class="btn btn-success" id="addCurrencyButton">კურსის დამატება</button></th>
+        </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
+<br />
+
+<h6>კოვერტაციები</h6>
+<hr />
+
+<div>
+    <label for="startDate">თარიღიდან:</label>
+    <input type="date" id="startDate">
+
+    <label for="endDate">თარიღამდე:</label>
+    <input type="date" id="endDate">
+
+    <label for="personalNumber">პირადი ნომერი:</label>
+    <input type="text" id="personalNumber">
+
+    <button id="filterButton">გაფილტვრა</button>
+</div>
+
+<table id="conversionsTable" class="table">
+    <thead>
+        <tr>
+            <th>კურსიდან</th>
+            <th>კურსში</th>
+            <th>კურსი</th>
+            <th>თარიღი</th>
+            <th>საწყისი თანხა</th>
+            <th>დაკონვერტირებული თანხა</th>
+            <th>სახელი გვარი</th>
+            <th>პირადი ნომერი</th>
+        </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
+<label>სულ:</label>
+<input type="number" id="total-conv-amount" disabled>
+
+
+<div class="modal fade" id="rateModal" tabindex="-1" role="dialog" aria-labelledby="rateModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="rateModalLabel">კურსის შეცვლა</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="buyRate">ყიდვის კურსი</label>
+                        <input type="number" class="form-control" id="buyRate" step=".01" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="sellRate">გაყიდვის კურსი</label>
+                        <input type="number" class="form-control" id="sellRate" step=".01" required>
+                    </div>
+                    <input type="hidden" id="currencyId">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">დახურვა</button>
+                <button type="button" class="btn btn-primary" id="saveRateButton">შენახვა</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="addCurrencyModal" tabindex="-1" role="dialog" aria-labelledby="addCurrencyModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addCurrencyModalLabel">კურსის დამატება</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="currencyCode">კურსის კოდი</label>
+                        <input type="text" class="form-control" id="currencyCode" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="currencyName">სახელი</label>
+                        <input type="text" class="form-control" id="currencyName" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">დახურვა</button>
+                <button type="button" class="btn btn-primary" id="saveCurrencyButton">დამახსოვრება</button>
+            </div>
+        </div>
+    </div>
+</div>
